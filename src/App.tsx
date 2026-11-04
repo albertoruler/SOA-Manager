@@ -1,5 +1,6 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { supabase } from './lib/supabase'
 import './App.css'
 
 const navigation = [
@@ -13,6 +14,25 @@ const navigation = [
 
 function App() {
   const [activePage, setActivePage] = useState('Dashboard')
+  const [connectionStatus, setConnectionStatus] = useState('Comprobando...')
+
+  useEffect(() => {
+    async function checkConnection() {
+      const { error } = await supabase
+        .from('organizations')
+        .select('id')
+        .limit(1)
+
+      if (error) {
+        setConnectionStatus(`Error: ${error.message}`)
+        return
+      }
+
+      setConnectionStatus('Conexión correcta')
+    }
+
+    checkConnection()
+  }, [])
 
   return (
     <div className="app-layout">
@@ -196,6 +216,10 @@ function App() {
               </p>
             </section>
           )}
+
+          <div>
+            Estado de conexión con Supabase: {connectionStatus}
+          </div>
 
           <footer className="footer">
             SOA Manager · Prototipo académico · ISO/IEC 27001:2022
