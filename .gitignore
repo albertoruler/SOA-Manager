@@ -41,3 +41,10 @@ Thumbs.db
 
 # Private local files
 .local/
+
+# Scripts internos de pruebas
+src/lib/deactivate-organization-test.ts
+src/lib/reactivate-organization-test.ts
+src/lib/inactive-organization-test.ts
+src/lib/lifecycle-test.ts
+src/lib/rls-test.ts
