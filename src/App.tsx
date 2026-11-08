@@ -1,8 +1,8 @@
-
 import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from './contexts/AuthContext'
 import { supabase } from './lib/supabase'
 import Login from './components/Login'
+import SoaPage from './components/SoaPage'
 import './App.css'
 
 const navigation = [
@@ -523,6 +523,12 @@ function App() {
                 para obtener acceso a un espacio de trabajo.
               </p>
             </section>
+          ) : activePage === 'Declaración de aplicabilidad' ? (
+            <SoaPage
+              organizationId={activeOrganization.id}
+              userId={profile.id}
+              canManageOrganization={canManageOrganization}
+            />
           ) : activePage === 'Dashboard' ? (
             <>
               <section className="metrics-grid">

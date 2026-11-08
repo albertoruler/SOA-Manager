@@ -1485,3 +1485,374 @@ fieldset legend {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* 20. DECLARACIÓN DE APLICABILIDAD (SOA)
+========================================================= */
+
+.soa-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+}
+
+.soa-page .controls-information {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px 22px;
+  border: 1px solid #e9e3d8;
+  border-radius: 12px;
+  background: #faf9f6;
+}
+
+.soa-page .controls-information-icon {
+  flex-shrink: 0;
+}
+
+.soa-page .controls-information strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #343434;
+  font-size: 14px;
+}
+
+.soa-page .controls-information p {
+  margin: 0;
+  color: #777777;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.soa-page .controls-toolbar {
+  margin-bottom: 0;
+}
+
+.soa-page .controls-search {
+  margin-bottom: 0;
+}
+
+.soa-page .controls-category {
+  overflow: hidden;
+}
+
+.soa-page .controls-category-heading {
+  background: #faf9f6;
+}
+
+.soa-page .controls-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.soa-page .soa-control-item {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr);
+  align-items: start;
+  gap: 22px;
+  padding: 24px 22px;
+}
+
+.soa-page .soa-control-item .control-code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  border-radius: 9px;
+  background: #f3eee3;
+  color: #887447;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.soa-page .soa-control-item .control-details {
+  min-width: 0;
+  width: 100%;
+}
+
+.soa-page .soa-control-item .control-details h4 {
+  margin: 2px 0 8px;
+  color: #303030;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.soa-page .soa-control-item .control-details > p {
+  margin: 0;
+  color: #777777;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Datos de evaluación */
+
+.soa-page .soa-control-metadata {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0 0;
+  padding: 0;
+}
+
+.soa-page .soa-control-metadata > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  padding: 12px 14px;
+  border: 1px solid #eeeae2;
+  border-radius: 9px;
+  background: #faf9f6;
+}
+
+.soa-page .soa-control-metadata dt {
+  color: #888888;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.soa-page .soa-control-metadata dd {
+  margin: 0;
+  color: #353535;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+/* Justificación de controles no aplicables */
+
+.soa-page .soa-justification {
+  margin-top: 14px !important;
+  padding: 13px 15px;
+  border-left: 3px solid #b49b68;
+  border-radius: 0 8px 8px 0;
+  background: #faf8f2;
+  color: #666666;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.soa-page .soa-justification strong {
+  color: #4b4437;
+}
+
+/* Adaptación a tablet */
+
+@media (max-width: 900px) {
+  .soa-page .soa-control-metadata {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Adaptación a móvil */
+
+@media (max-width: 600px) {
+  .soa-page {
+    gap: 16px;
+  }
+
+  .soa-page .soa-control-item {
+    grid-template-columns: 1fr;
+    gap: 13px;
+    padding: 19px 15px;
+  }
+
+  .soa-page .soa-control-item .control-code {
+    justify-self: start;
+    min-width: 58px;
+  }
+
+  .soa-page .soa-control-metadata {
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+    margin-top: 16px;
+  }
+
+  .soa-page .soa-control-metadata > div {
+    padding: 10px;
+  }
+
+  .soa-page .controls-information {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .soa-page .soa-control-metadata {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Formulario de edición SOA */
+
+.soa-control-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.soa-edit-button,
+.soa-cancel-button {
+  flex-shrink: 0;
+  padding: 9px 16px;
+  border: 1px solid #ded6c7;
+  border-radius: 8px;
+  background: #fff;
+  color: #78643e;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.soa-edit-button:hover,
+.soa-cancel-button:hover {
+  background: #f7f3eb;
+}
+
+.soa-edit-form {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #e9e3d8;
+  border-radius: 11px;
+  background: #faf9f6;
+}
+
+.soa-edit-form h5 {
+  margin: 0 0 18px;
+  color: #383838;
+  font-size: 14px;
+}
+
+.soa-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.soa-form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.soa-form-grid label > span {
+  color: #777;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.soa-form-grid input,
+.soa-form-grid select,
+.soa-form-grid textarea {
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 1px solid #dedbd3;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font: inherit;
+  font-size: 13px;
+}
+
+.soa-form-grid textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.soa-form-grid input:focus,
+.soa-form-grid select:focus,
+.soa-form-grid textarea:focus {
+  outline: 2px solid #b49b68;
+  outline-offset: 1px;
+}
+
+.soa-form-grid .soa-justification-field {
+  grid-column: 1 / -1;
+}
+
+.soa-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.soa-form-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.soa-save-error {
+  margin: 14px 0 0;
+  color: #a33c35;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .soa-control-heading {
+    flex-direction: column;
+  }
+
+  .soa-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .soa-form-grid .soa-justification-field {
+    grid-column: auto;
+  }
+
+  .soa-form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .soa-form-actions button {
+    width: 100%;
+  }
+}
+
+.soa-control-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.soa-reset-button {
+  padding: 9px 13px;
+  border: 1px solid #e5c9c5;
+  border-radius: 8px;
+  background: #fff;
+  color: #a34b43;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.soa-reset-button:hover:not(:disabled) {
+  background: #fbf0ee;
+}
+
+.soa-reset-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .soa-control-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
