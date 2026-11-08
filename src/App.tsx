@@ -1,6 +1,7 @@
 
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useAuth } from './contexts/AuthContext'
+import { supabase } from './lib/supabase'
 import Login from './components/Login'
 import './App.css'
 
@@ -12,6 +13,213 @@ const navigation = [
   { name: 'Documentación', icon: '▱' },
   { name: 'Asistente IA', icon: '✧' },
 ]
+
+const controlCategories = [
+  'Organizativo',
+  'Personas',
+  'Físico',
+  'Tecnológico',
+] as const
+
+type ControlCategory = typeof controlCategories[number]
+
+interface Control {
+  id: string
+  code: string
+  name: string
+  description: string
+  category: ControlCategory
+  sort_order: number
+}
+
+function ControlsPage() {
+  const [controls, setControls] = useState<Control[]>([])
+  const [loadingControls, setLoadingControls] = useState(true)
+  const [controlsError, setControlsError] = useState<string | null>(null)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadControls() {
+      setLoadingControls(true)
+      setControlsError(null)
+
+      const { data, error } = await supabase
+        .from('controls')
+        .select('id, code, name, description, category, sort_order')
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true })
+
+      if (!isMounted) return
+
+      if (error) {
+        console.error('Error al cargar los controles:', error.message)
+        setControlsError(
+          'No se ha podido cargar el catálogo de controles. Inténtalo de nuevo.',
+        )
+        setControls([])
+      } else {
+        setControls((data ?? []) as Control[])
+      }
+
+      setLoadingControls(false)
+    }
+
+    void loadControls()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const filteredControls = useMemo(() => {
+    const normalizedSearch = searchTerm.trim().toLowerCase()
+
+    if (!normalizedSearch) return controls
+
+    return controls.filter((control) =>
+      [
+        control.code,
+        control.name,
+        control.description,
+        control.category,
+      ].some((value) =>
+        value.toLowerCase().includes(normalizedSearch),
+      ),
+    )
+  }, [controls, searchTerm])
+
+  return (
+    <>
+      <section className="panel controls-information">
+        <div className="controls-information-icon">i</div>
+
+        <div>
+          <strong>Sobre el catálogo de controles</strong>
+
+          <p>
+            El catálogo se basa en la estructura del Anexo A de
+            ISO/IEC 27001:2022. Las denominaciones y descripciones
+            son elaboraciones explicativas propias y no reproducen
+            el contenido normativo oficial.
+          </p>
+
+          <p>
+            SOA Manager no sustituye la consulta de las publicaciones
+            oficiales ni determina automáticamente el cumplimiento
+            de los requisitos de la norma.
+          </p>
+        </div>
+      </section>
+
+      <section className="controls-toolbar">
+        <div>
+          <h3>Catálogo de controles</h3>
+          <p>
+            Consulta los controles del Anexo A de ISO/IEC 27001:2022.
+          </p>
+        </div>
+
+        <div className="controls-count">
+          {loadingControls ? '--' : controls.length}
+          <span> controles activos</span>
+        </div>
+      </section>
+
+      <div className="controls-search">
+        <span aria-hidden="true">⌕</span>
+
+        <input
+          type="search"
+          placeholder="Buscar por código, nombre o descripción..."
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          aria-label="Buscar controles"
+        />
+      </div>
+
+      {loadingControls ? (
+        <section className="panel controls-message">
+          <div className="loading-spinner" />
+          <p>Cargando catálogo de controles...</p>
+        </section>
+      ) : controlsError ? (
+        <section className="panel controls-message">
+          <div className="empty-icon">!</div>
+          <h3>No se ha podido cargar el catálogo</h3>
+          <p>{controlsError}</p>
+
+          <button
+            className="primary-button"
+            type="button"
+            onClick={() => window.location.reload()}
+          >
+            Reintentar
+          </button>
+        </section>
+      ) : controls.length === 0 ? (
+        <section className="panel controls-message">
+          <h3>No hay controles disponibles</h3>
+          <p>
+            No se han encontrado controles activos en el catálogo.
+          </p>
+        </section>
+      ) : filteredControls.length === 0 ? (
+        <section className="panel controls-message">
+          <h3>No se han encontrado resultados</h3>
+          <p>
+            Prueba con otro código, nombre o término de búsqueda.
+          </p>
+        </section>
+      ) : (
+        <div className="controls-categories">
+          {controlCategories.map((category) => {
+            const categoryControls = filteredControls.filter(
+              (control) => control.category === category,
+            )
+
+            if (categoryControls.length === 0) return null
+
+            return (
+              <section
+                className="panel controls-category"
+                key={category}
+              >
+                <div className="controls-category-heading">
+                  <div>
+                    <h3>{category}</h3>
+                    <p>
+                      {categoryControls.length} controles
+                    </p>
+                  </div>
+                </div>
+
+                <div className="controls-list">
+                  {categoryControls.map((control) => (
+                    <article
+                      className="control-item"
+                      key={control.id}
+                    >
+                      <div className="control-code">
+                        {control.code}
+                      </div>
+
+                      <div className="control-details">
+                        <h4>{control.name}</h4>
+                        <p>{control.description}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            )
+          })}
+        </div>
+      )}
+    </>
+  )
+}
 
 function App() {
   const {
@@ -258,7 +466,9 @@ function App() {
             </p>
           )}
 
-          {!activeOrganization ? (
+          {activePage === 'Controles' ? (
+            <ControlsPage />
+          ) : !activeOrganization ? (
             <section className="panel placeholder-panel">
               <div className="empty-icon">◈</div>
 
