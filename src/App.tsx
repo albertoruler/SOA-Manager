@@ -189,9 +189,7 @@ function ControlsPage() {
                 <div className="controls-category-heading">
                   <div>
                     <h3>{category}</h3>
-                    <p>
-                      {categoryControls.length} controles
-                    </p>
+                    <p>{categoryControls.length} controles</p>
                   </div>
                 </div>
 
@@ -237,9 +235,11 @@ function App() {
 
   const [activePage, setActivePage] = useState('Dashboard')
   const [signOutError, setSignOutError] = useState<string | null>(null)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
 
   async function handleSignOut() {
     setSignOutError(null)
+    setUserMenuOpen(false)
 
     const error = await signOut()
 
@@ -273,7 +273,7 @@ function App() {
   if (profileError || !profile) {
     return (
       <div className="auth-loading">
-        <div>
+        <div className="auth-error-content">
           <p>
             {profileError ?? 'No se ha podido cargar tu perfil.'}
           </p>
@@ -325,48 +325,25 @@ function App() {
     <div className="app-layout">
       <aside className="sidebar">
         <div className="brand">
-          <div className="brand-icon">S</div>
+          <div
+            className="brand-icon"
+            style={{ background: 'transparent' }}
+          >
+            <img
+              src="/soa-manager-symbol.svg"
+              alt="SOA Manager"
+              style={{
+                display: 'block',
+                width: '56px',
+                height: '56px',
+                objectFit: 'contain',
+              }}
+            />
+          </div>
 
           <div>
             <h1>SOA Manager</h1>
             <span>SECURITY MANAGEMENT</span>
-          </div>
-        </div>
-
-        <div className="workspace">
-          <span className="workspace-label">
-            ESPACIO DE TRABAJO
-          </span>
-
-          <div className="workspace-name">
-            <span className="workspace-dot" />
-
-            <select
-              className="organization-selector"
-              aria-label="Seleccionar organización"
-              value={activeOrganization?.id ?? ''}
-              onChange={(event) => {
-                if (event.target.value) {
-                  selectOrganization(event.target.value)
-                }
-              }}
-              disabled={availableOrganizations.length === 0}
-            >
-              {availableOrganizations.length === 0 ? (
-                <option value="">
-                  Sin organización disponible
-                </option>
-              ) : (
-                availableOrganizations.map((organization) => (
-                  <option
-                    key={organization.id}
-                    value={organization.id}
-                  >
-                    {organization.name}
-                  </option>
-                ))
-              )}
-            </select>
           </div>
         </div>
 
@@ -388,7 +365,9 @@ function App() {
                 {item.icon}
               </span>
 
-              {item.name}
+              <span className="nav-item-label">
+                {item.name}
+              </span>
             </button>
           ))}
         </nav>
@@ -402,16 +381,6 @@ function App() {
             <strong>{profile.display_name}</strong>
             <span>{roleLabel}</span>
           </div>
-
-          <button
-            className="user-menu"
-            type="button"
-            onClick={() => void handleSignOut()}
-            aria-label="Cerrar sesión"
-            title="Cerrar sesión"
-          >
-            ↪
-          </button>
         </div>
       </aside>
 
@@ -422,17 +391,90 @@ function App() {
           </div>
 
           <div className="topbar-right">
-            <span className="environment">
-              {activeOrganization?.name ?? 'SIN ORGANIZACIÓN'}
-            </span>
+            <label className="topbar-organization">
+              <span className="sr-only">Organización activa</span>
 
-            <div className="topbar-avatar">
-              {userInitials}
+              <select
+                className="topbar-organization-select"
+                aria-label="Seleccionar organización"
+                value={activeOrganization?.id ?? ''}
+                onChange={(event) => {
+                  if (event.target.value) {
+                    selectOrganization(event.target.value)
+                  }
+                }}
+                disabled={availableOrganizations.length <= 1}
+              >
+                {availableOrganizations.length === 0 ? (
+                  <option value="">
+                    Sin organización disponible
+                  </option>
+                ) : (
+                  availableOrganizations.map((organization) => (
+                    <option
+                      key={organization.id}
+                      value={organization.id}
+                    >
+                      {organization.name}
+                    </option>
+                  ))
+                )}
+              </select>
+            </label>
+
+            <div className="user-dropdown">
+              <button
+                className={`topbar-user-button ${
+                  userMenuOpen ? 'is-open' : ''
+                }`}
+                type="button"
+                aria-label="Abrir menú de usuario"
+                aria-haspopup="true"
+                aria-expanded={userMenuOpen}
+                onClick={() => setUserMenuOpen((open) => !open)}
+              >
+                <span className="topbar-avatar">
+                  {userInitials}
+                </span>
+
+                <span className="topbar-user-text">
+                  <strong>{profile.display_name}</strong>
+                  <small>{roleLabel}</small>
+                </span>
+
+                <span className="user-dropdown-chevron">
+                  {userMenuOpen ? '⌃' : '⌄'}
+                </span>
+              </button>
+
+              {userMenuOpen && (
+                <div className="user-dropdown-menu" role="menu">
+                  <div className="user-dropdown-heading">
+                    <strong>{profile.display_name}</strong>
+                    <span>{roleLabel}</span>
+                  </div>
+
+                  <button
+                    className="user-dropdown-item logout-item"
+                    type="button"
+                    role="menuitem"
+                    onClick={() => void handleSignOut()}
+                  >
+                    <span aria-hidden="true">↪</span>
+                    Cerrar sesión
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </header>
 
-        <div className="page-content">
+        <div
+          className="page-content"
+          onClick={() => {
+            if (userMenuOpen) setUserMenuOpen(false)
+          }}
+        >
           <section className="welcome-section">
             <div>
               <span className="eyebrow">
@@ -454,6 +496,7 @@ function App() {
               <button
                 className="primary-button"
                 type="button"
+                onClick={() => setActivePage('Acciones de mejora')}
               >
                 + Nueva acción
               </button>

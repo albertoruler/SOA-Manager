@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 140" role="img" aria-labelledby="title desc">
+  <title id="title">SOA Manager</title>
+  <desc id="desc">SOA Manager, Information Security Management</desc>
+  <g transform="translate(8 6)" fill="none" stroke="#D0B77B" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M64 15 105 38.5 105 83.5 64 107 23 83.5 23 38.5Z"/>
+    <path d="m23 49 41 23.5L105 49"/>
+    <path d="M64 72.5V107"/>
+    <path d="m37 67 27 15.5L91 67"/>
+  </g>
+  <path d="M145 24V116" stroke="#D0B77B" stroke-opacity=".55" stroke-width="1.5"/>
+  <text x="174" y="69" fill="#252629" font-family="Inter, Arial, sans-serif" font-size="43" font-weight="700" letter-spacing="-1.2">SOA Manager</text>
+  <text x="176" y="101" fill="#62666B" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="500" letter-spacing="1.5">INFORMATION SECURITY MANAGEMENT</text>
+</svg>

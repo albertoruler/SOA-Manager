@@ -1,13 +1,103 @@
 
+/* =========================================
+   SOA MANAGER — DESIGN SYSTEM
+   Executive Visual Identity
+   ========================================= */
+
+/* 1. IDENTIDAD VISUAL */
+
 :root {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #202536;
-  background: #f6f7fb;
+  /* Colores principales */
+  --color-charcoal: #252629;
+  --color-champagne: #D0B77B;
+  --color-champagne-dark: #B99B5C;
+  --color-ivory: #F5F3EE;
+  --color-white: #FFFFFF;
+
+  /* Colores secundarios */
+  --color-burgundy: #801F36;
+  --color-slate: #62666B;
+  --color-muted: #92949A;
+
+  /* Estados */
+  --color-success: #3F7959;
+  --color-success-bg: #E8F1EA;
+
+  --color-warning: #B68A36;
+  --color-warning-bg: #F7F0DF;
+
+  --color-danger: #982E39;
+  --color-danger-bg: #F6E8E9;
+
+  --color-info: #536F8C;
+  --color-info-bg: #EAF0F5;
+
+  /* Superficies */
+  --background-main: var(--color-ivory);
+  --background-card: var(--color-white);
+  --background-sidebar: var(--color-charcoal);
+
+  /* Texto */
+  --text-primary: var(--color-charcoal);
+  --text-secondary: var(--color-slate);
+  --text-muted: var(--color-muted);
+  --text-inverse: var(--color-white);
+
+  /* Bordes */
+  --border-color: #E8E5DE;
+  --border-strong: #D8D4CA;
+
+  /* 2. TIPOGRAFÍA */
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  color: var(--text-primary);
+  background: var(--background-main);
+
+  /* 3. ESPACIADO */
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  --spacing-3xl: 48px;
+
+  /* 4. BORDES Y SOMBRAS */
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+
+  --shadow-card:
+    0 2px 8px rgba(37, 38, 41, 0.045),
+    0 8px 24px rgba(37, 38, 41, 0.035);
+
+  --shadow-dropdown:
+    0 8px 28px rgba(37, 38, 41, 0.12);
+
+  /* 5. TRANSICIONES */
+
+  --transition-fast: 150ms ease;
+  --transition-normal: 220ms ease;
 }
+
+/* =========================================
+   RESET GLOBAL
+   ========================================= */
 
 * {
   box-sizing: border-box;
@@ -22,9 +112,20 @@ body,
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   min-height: 100vh;
+  background: var(--background-main);
+  color: var(--text-primary);
+  font-family: inherit;
 }
+
+/* =========================================
+   ELEMENTOS GENERALES
+   ========================================= */
 
 button,
 input,
@@ -37,9 +138,16 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 h1,
 h2,
 h3,
+h4,
+h5,
+h6,
 p {
   margin-top: 0;
 }
@@ -47,4 +155,51 @@ p {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* =========================================
+   ACCESIBILIDAD
+   ========================================= */
+
+:focus-visible {
+  outline: 2px solid var(--color-champagne-dark);
+  outline-offset: 3px;
+}
+
+::selection {
+  color: var(--color-charcoal);
+  background: rgba(208, 183, 123, 0.35);
+}
+
+/* =========================================
+   SCROLLBAR
+   ========================================= */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #C9C4B9 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #C9C4B9;
+  border-radius: 20px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-champagne-dark);
 }
