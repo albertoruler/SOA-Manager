@@ -1082,23 +1082,18 @@ button:disabled {
 .login-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: flex-start;
+  width: 100%;
   margin-bottom: 35px;
 }
 
-.login-brand h1 {
-  margin: 0;
-  color: var(--color-charcoal);
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.login-brand span {
+.login-brand-logo {
   display: block;
-  margin-top: 4px;
-  color: var(--color-muted);
-  font-size: 9px;
-  letter-spacing: 1px;
+  width: 370px;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .login-heading {

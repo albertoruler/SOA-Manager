@@ -29,11 +29,11 @@ export default function Login() {
     <main className="login-page">
       <section className="login-card">
         <div className="login-brand">
-          <div className="brand-icon">S</div>
-          <div>
-            <h1>SOA Manager</h1>
-            <span>SECURITY MANAGEMENT</span>
-          </div>
+          <img
+            className="login-brand-logo"
+            src="/soa-manager-logo.svg"
+            alt="SOA Manager - Security Management"
+          />
         </div>
 
         <div className="login-heading">
